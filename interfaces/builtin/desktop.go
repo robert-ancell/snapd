@@ -355,7 +355,7 @@ func (iface *desktopInterface) AppArmorConnectedPlug(spec *apparmor.Specificatio
 	spec.AddSnippet(desktopConnectedPlugAppArmor)
 
 	emit := spec.AddUpdateNSf
-	if implicitSystemConnectedSlot(slot) {
+	/*if implicitSystemConnectedSlot(slot)*/ {
 		// Extra rules that have not been ported to work with
 		// a desktop slot provided by a snap.
 		spec.AddSnippet(desktopConnectedPlugAppArmorClassic)
@@ -384,7 +384,7 @@ func (iface *desktopInterface) AppArmorConnectedPlug(spec *apparmor.Specificatio
 }
 
 func (iface *desktopInterface) MountConnectedPlug(spec *mount.Specification, plug *interfaces.ConnectedPlug, slot *interfaces.ConnectedSlot) error {
-	if implicitSystemConnectedSlot(slot) {
+	/*if implicitSystemConnectedSlot(slot)*/ {
 		// We don't yet have support for a snap exposing the
 		// document portal.
 		appId := "snap." + plug.Snap().InstanceName()
