@@ -25,6 +25,7 @@ const gsettingsBaseDeclarationSlots = `
   gsettings:
     allow-installation:
       slot-snap-type:
+        - app
         - core
 `
 
