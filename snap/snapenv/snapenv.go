@@ -138,6 +138,8 @@ func userEnv(info *snap.Info, home string, opts *dirs.SnapDirOptions) osutil.Env
 	// Provide the location of the real home directory.
 	env["SNAP_REAL_HOME"] = home
 
+	env["SNAP_CONFINEMENT"] = info.Confinement
+
 	if opts.MigratedToExposedHome {
 		env["XDG_DATA_HOME"] = filepath.Join(info.UserDataDir(home, opts), "xdg-data")
 		env["XDG_CONFIG_HOME"] = filepath.Join(info.UserDataDir(home, opts), "xdg-config")

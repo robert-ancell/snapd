@@ -291,6 +291,7 @@ func (s *HTestSuite) TestExtendEnvForRunForNonClassic(c *C) {
 	ExtendEnvForRun(env, mockSnapInfo, nil)
 
 	c.Assert(env["SNAP_NAME"], Equals, "foo")
+	c.Assert(env["SNAP_CONFINEMENT"], Equals, "strict")
 	c.Assert(env["SNAP_COMMON"], Equals, "/var/snap/foo/common")
 	c.Assert(env["SNAP_DATA"], Equals, "/var/snap/foo/17")
 
@@ -303,6 +304,7 @@ func (s *HTestSuite) TestExtendEnvForRunForClassic(c *C) {
 	ExtendEnvForRun(env, mockClassicSnapInfo, nil)
 
 	c.Assert(env["SNAP_NAME"], Equals, "foo")
+	c.Assert(env["SNAP_CONFINEMENT"], Equals, "classic")
 	c.Assert(env["SNAP_COMMON"], Equals, "/var/snap/foo/common")
 	c.Assert(env["SNAP_DATA"], Equals, "/var/snap/foo/17")
 
