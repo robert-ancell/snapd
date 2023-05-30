@@ -39,7 +39,7 @@ const aaPromptIntrospectionData = `
 <node>
 	<interface name="io.snapcraft.AppArmorPrompt">
 		<method name="RegisterAgent">
-                    <arg name="path" direction="in" type="s"/>
+                    <arg name="path" direction="in" type="o"/>
 		</method>
 	</interface>` + introspect.IntrospectDataString + `</node> `
 
