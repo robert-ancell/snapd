@@ -181,6 +181,9 @@ func SystemctlSupportsUserUnits() bool {
 // classic Ubuntu system or a native Ubuntu Core image.
 var OnClassic bool
 
+// OnCoreDesktop states whether the process is running inside a Core Desktop image.
+var OnCoreDesktop bool
+
 // OnWSL states whether the process is running inside the Windows
 // Subsystem for Linux
 var OnWSL bool
@@ -196,6 +199,7 @@ func init() {
 	ReleaseInfo = readOSRelease()
 
 	OnClassic = (ReleaseInfo.ID != "ubuntu-core")
+	OnCoreDesktop = true
 
 	WSLVersion = getWSLVersion()
 	OnWSL = WSLVersion != 0
