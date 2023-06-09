@@ -22,9 +22,12 @@ package release
 import (
 	"bufio"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strings"
 	"unicode"
+
+	"gopkg.in/yaml.v2"
 
 	"github.com/snapcore/snapd/strutil"
 )
@@ -168,6 +171,36 @@ func getWSLVersion() int {
 	return 2
 }
 
+type snapYaml struct {
+	Name string `yaml:"name"`
+}
+
+// Get the name of the base snap if running inside one.
+func getBaseSnapName() (string, error) {
+	yamlData, err := ioutil.ReadFile("/meta/snap.yaml")
+	if err != nil {
+		return "", fmt.Errorf("cannot find base snap metadata: %v", err)
+	}
+
+	var y snapYaml
+	err = yaml.Unmarshal(yamlData, &y)
+	if err != nil {
+		return "", fmt.Errorf("cannot read base snap metadata: %v", err)
+	}
+
+	return y.Name, nil
+}
+
+// isONCoreDesktop returns true if running on core desktop.
+func isOnCoreDesktop() bool {
+	name, err := getBaseSnapName()
+	if err != nil {
+		return false
+	}
+
+	return name == "core22-desktop"
+}
+
 // SystemctlSupportsUserUnits returns true if the systemctl utility
 // supports user units.
 func SystemctlSupportsUserUnits() bool {
@@ -180,6 +213,9 @@ func SystemctlSupportsUserUnits() bool {
 // OnClassic states whether the process is running inside a
 // classic Ubuntu system or a native Ubuntu Core image.
 var OnClassic bool
+
+// OnCoreDesktop states whether the process is running inside a Core Desktop image.
+var OnCoreDesktop bool
 
 // OnWSL states whether the process is running inside the Windows
 // Subsystem for Linux
@@ -197,6 +233,8 @@ func init() {
 
 	OnClassic = (ReleaseInfo.ID != "ubuntu-core")
 
+	OnCoreDesktop = isOnCoreDesktop()
+
 	WSLVersion = getWSLVersion()
 	OnWSL = WSLVersion != 0
 }
@@ -207,6 +245,14 @@ func MockOnClassic(onClassic bool) (restore func()) {
 	old := OnClassic
 	OnClassic = onClassic
 	return func() { OnClassic = old }
+}
+
+// MockOnCoreDesktop forces the process to appear inside a core desktop
+// system for testing purposes.
+func MockOnCoreDesktop(onClassic bool) (restore func()) {
+	old := OnCoreDesktop
+	OnCoreDesktop = onClassic
+	return func() { OnCoreDesktop = old }
 }
 
 // MockReleaseInfo fakes a given information to appear in ReleaseInfo,
