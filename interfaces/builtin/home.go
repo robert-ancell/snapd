@@ -43,6 +43,9 @@ const homeBaseDeclarationSlots = `
       -
         plug-attributes:
           read: all
+    allow-auto-connection:
+      on-model:
+        - ubuntu-core-desktop-22-amd64
 `
 
 const homeConnectedPlugAppArmor = `
