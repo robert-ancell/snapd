@@ -248,8 +248,10 @@ func postPendingRefreshNotification(c *Command, r *http.Request) Response {
 	summary := fmt.Sprintf(i18n.G("Update available for %s."), refreshInfo.InstanceName)
 	var urgencyLevel notification.Urgency
 	var body, icon string
+	var actions []notification.Action
 	var hints []notification.Hint
 
+	delayed := true
 	if daysLeft := int(refreshInfo.TimeRemaining.Truncate(time.Hour).Hours() / 24); daysLeft > 0 {
 		urgencyLevel = notification.LowUrgency
 		body = fmt.Sprintf(
@@ -268,6 +270,11 @@ func postPendingRefreshNotification(c *Command, r *http.Request) Response {
 	} else {
 		summary = fmt.Sprintf(i18n.G("%s is updating now!"), refreshInfo.InstanceName)
 		urgencyLevel = notification.CriticalUrgency
+		delayed = false
+	}
+	if delayed {
+		actions = append(actions, notification.Action{ActionKey: "cancel", LocalizedText: i18n.G("Dismiss")})
+		actions = append(actions, notification.Action{ActionKey: "update-now", LocalizedText: i18n.G("Update now")})
 	}
 	hints = append(hints, notification.WithUrgency(urgencyLevel))
 	// The notification is provided by snapd session agent.
@@ -286,6 +293,7 @@ func postPendingRefreshNotification(c *Command, r *http.Request) Response {
 		Title:   summary,
 		Icon:    icon,
 		Body:    body,
+		Actions: actions,
 		Hints:   hints,
 	}
 
