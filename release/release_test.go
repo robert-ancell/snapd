@@ -186,6 +186,16 @@ func (s *ReleaseTestSuite) TestOnClassic(c *C) {
 	c.Assert(release.OnClassic, Equals, false)
 }
 
+func (s *ReleaseTestSuite) TestOnCoreDesktop(c *C) {
+	reset := release.MockOnCoreDesktop(true)
+	defer reset()
+	c.Assert(release.OnCoreDesktop, Equals, true)
+
+	reset = release.MockOnCoreDesktop(false)
+	defer reset()
+	c.Assert(release.OnCoreDesktop, Equals, false)
+}
+
 func (s *ReleaseTestSuite) TestReleaseInfo(c *C) {
 	reset := release.MockReleaseInfo(&release.OS{
 		ID: "distro-id",
