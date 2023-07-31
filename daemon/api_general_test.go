@@ -93,6 +93,8 @@ func (s *generalSuite) TestSysInfo(c *check.C) {
 	defer restore()
 	restore = release.MockOnClassic(true)
 	defer restore()
+	restore = release.MockOnCoreDesktop(true)
+	defer restore()
 	restore = sandbox.MockForceDevMode(true)
 	defer restore()
 	// reload dirs for release info to have effect
@@ -116,9 +118,10 @@ func (s *generalSuite) TestSysInfo(c *check.C) {
 			"id":         "distro-id",
 			"version-id": "1.2",
 		},
-		"build-id":   buildID,
-		"on-classic": true,
-		"managed":    false,
+		"build-id":        buildID,
+		"on-classic":      true,
+		"on-core-desktop": true,
+		"managed":         false,
 		"locations": map[string]interface{}{
 			"snap-mount-dir": dirs.SnapMountDir,
 			"snap-bin-dir":   dirs.SnapBinariesDir,
@@ -154,6 +157,8 @@ func (s *generalSuite) TestSysInfoLegacyRefresh(c *check.C) {
 	restore := release.MockReleaseInfo(&release.OS{ID: "distro-id", VersionID: "1.2"})
 	defer restore()
 	restore = release.MockOnClassic(true)
+	defer restore()
+	restore = release.MockOnCoreDesktop(true)
 	defer restore()
 	restore = sandbox.MockForceDevMode(true)
 	defer restore()
@@ -194,9 +199,10 @@ func (s *generalSuite) TestSysInfoLegacyRefresh(c *check.C) {
 			"id":         "distro-id",
 			"version-id": "1.2",
 		},
-		"build-id":   buildID,
-		"on-classic": true,
-		"managed":    false,
+		"build-id":        buildID,
+		"on-classic":      true,
+		"on-core-desktop": true,
+		"managed":         false,
 		"locations": map[string]interface{}{
 			"snap-mount-dir": dirs.SnapMountDir,
 			"snap-bin-dir":   dirs.SnapBinariesDir,
@@ -232,6 +238,8 @@ func (s *generalSuite) testSysInfoSystemMode(c *check.C, mode string) {
 	restore := release.MockReleaseInfo(&release.OS{ID: "distro-id", VersionID: "1.2"})
 	defer restore()
 	restore = release.MockOnClassic(false)
+	defer restore()
+	restore = release.MockOnCoreDesktop(false)
 	defer restore()
 	restore = sandbox.MockForceDevMode(false)
 	defer restore()
@@ -274,9 +282,10 @@ func (s *generalSuite) testSysInfoSystemMode(c *check.C, mode string) {
 			"id":         "distro-id",
 			"version-id": "1.2",
 		},
-		"build-id":   buildID,
-		"on-classic": false,
-		"managed":    false,
+		"build-id":        buildID,
+		"on-classic":      false,
+		"on-core-desktop": false,
+		"managed":         false,
 		"locations": map[string]interface{}{
 			"snap-mount-dir": dirs.SnapMountDir,
 			"snap-bin-dir":   dirs.SnapBinariesDir,

@@ -130,13 +130,14 @@ func sysInfo(c *Command, r *http.Request, user *auth.UserState) Response {
 	}
 
 	m := map[string]interface{}{
-		"series":         release.Series,
-		"version":        c.d.Version,
-		"build-id":       buildID,
-		"os-release":     release.ReleaseInfo,
-		"on-classic":     release.OnClassic,
-		"managed":        len(users) > 0,
-		"kernel-version": osutil.KernelVersion(),
+		"series":          release.Series,
+		"version":         c.d.Version,
+		"build-id":        buildID,
+		"os-release":      release.ReleaseInfo,
+		"on-classic":      release.OnClassic,
+		"on-core-desktop": release.OnCoreDesktop,
+		"managed":         len(users) > 0,
+		"kernel-version":  osutil.KernelVersion(),
 		"locations": map[string]interface{}{
 			"snap-mount-dir": dirs.SnapMountDir,
 			"snap-bin-dir":   dirs.SnapBinariesDir,
