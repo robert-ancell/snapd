@@ -244,3 +244,11 @@ func (ac themesAuthenticatedAccess) CheckAccess(d *Daemon, r *http.Request, ucre
 
 	return Unauthorized("access denied")
 }
+
+// rebootInfoAccess behaves like openAccess, but allows requests from
+// snapd-snap.socket for snaps that plug snap-reboot-observe.
+type rebootInfoAccess struct{}
+
+func (ac rebootInfoAccess) CheckAccess(d *Daemon, r *http.Request, ucred *ucrednet, user *auth.UserState) *apiError {
+	return Forbidden("access denied")
+}
