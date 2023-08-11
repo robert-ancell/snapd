@@ -114,6 +114,14 @@ dbus (receive)
     member={ActionInvoked,NotificationClosed,NotificationReplied}
     peer=(label=unconfined),
 
+# GTK notifications
+dbus (send)
+    bus=session
+    path=/org/gtk/Notifications
+    interface=org.gtk.Notifications
+    member="{AddNotification,RemoveNotification}"
+    peer=(label=unconfined),
+
 # KDE Plasma's Inhibited property indicating "do not disturb" mode
 # https://invent.kde.org/plasma/plasma-workspace/-/blob/master/libnotificationmanager/dbus/org.freedesktop.Notifications.xml#L42
 dbus (send)
