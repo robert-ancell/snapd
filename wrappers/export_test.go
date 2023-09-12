@@ -41,6 +41,10 @@ var (
 	RewriteIconLine        = rewriteIconLine
 	IsValidDesktopFileLine = isValidDesktopFileLine
 
+	SanitizeSessionFile    = sanitizeSessionFile
+	RewriteSessionExecLine = rewriteSessionExecLine
+	IsValidSessionFileLine = isValidSessionFileLine
+
 	// timers
 	GenerateOnCalendarSchedules = generateOnCalendarSchedules
 
