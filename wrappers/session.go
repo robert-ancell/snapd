@@ -61,7 +61,7 @@ var isValidSessionFileLine = regexp.MustCompile(strings.Join([]string{
 
 func findCommand(s *snap.Info, cmd string) (string, error) {
 	// Disallow anything that might try and get out of the snap path.
-	if !filepath.IsLocal(cmd) {
+	if strings.Contains(filepath.Clean(cmd), "..") {
 		return "", fmt.Errorf("exec command has non-local path: %q", cmd)
 	}
 	if filepath.IsAbs(cmd) {
